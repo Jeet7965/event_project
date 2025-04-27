@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Hero Section -->
+
+  <!-- Hero Section -->
+  <section id="home" class="h-full w-full bg-cover bg-center flex items-center justify-center text-white pt-20" style="background-image: url('{% static "images/pic2.jpg" %}');">
+    <div class="text-center  px-6 py-10 sm:p-10 rounded-lg shadow-lg w-[90%] max-w-xl">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Welcome to Planify</h1>
+      <p class="text-lg sm:text-xl mb-6">Simplify event planning</p>
+      <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded transition duration-300" id="loginBtn">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/50 backdrop-blur-sm z-50 px-4 sm:px-0">
+    <div class="bg-white w-full max-w-lg p-6 sm:p-8 rounded-lg shadow-lg relative">
+      <button aria-label="Close Modal" class="absolute top-3 right-4 text-2xl text-gray-500 hover:text-black close">&times;</button>
+      <h2 class="text-2xl font-bold mb-4 text-center">Event Form</h2>
+      {% if message %}
+      <p class="text-red-500 mb-4">{{ message }}</p>
+      {% endif %}
+      {% comment %} <form id="eventForm" class="space-y-4">
+        <!-- Event Type -->
+        <div>
+          <label for="eventType" class="block text-sm font-medium">Event / Occasion</label>
+          <select id="eventType" required class="w-full border border-gray-300 rounded mt-1 p-2">
+            <option disabled selected>What type of event are you planning?</option>
+            <option>Wedding</option>
+            <option>Birthday</option>
+            <option>Corporate Party</option>
+            <option>Restaurant</option>
+            <option>Kitty Party</option>
+            <option>Bus on Event</option>
+            <option>Banquet Hall</option>
+          </select>
+        </div>
+
+        <!-- City -->
+        <div>
+          <label for="city" class="block text-sm font-medium">City</label>
+          <select id="city" required class="w-full border border-gray-300 rounded mt-1 p-2">
+            <option disabled selected>Select City</option>
+            <option>Varanasi</option>
+            <option>Lucknow</option>
+            <option>Delhi</option>
+          </select>
+        </div>
+
+        <!-- Preferred Location -->
+        <div>
+          <label for="location" class="block text-sm font-medium">Preferred Location</label>
+          <select id="location" required class="w-full border border-gray-300 rounded mt-1 p-2">
+            <option disabled selected>Select your preferred location</option>
+            <option>Location 1</option>
+            <option>Location 2</option>
+          </select>
+        </div>
+
+        <!-- No of Persons -->
+        <div>
+          <label for="people" class="block text-sm font-medium">No. of Persons</label>
+          <select id="people" required class="w-full border border-gray-300 rounded mt-1 p-2">
+            <option disabled selected>Select Range</option>
+            <option>10 to 100</option>
+            <option>100 to 200</option>
+            <option>300 to 400</option>
+            <option>More than 400</option>
+          </select>
+        </div>
+
+        <!-- Budget -->
+        <div>
+          <label for="budget" class="block text-sm font-medium">Budget</label>
+          <select id="budget" required class="w-full border border-gray-300 rounded mt-1 p-2">
+            <option disabled selected>Select your budget per person</option>
+            <option>300 to 500</option>
+            <option>500 to 700</option>
+          </select>
+        </div>
+
+        <!-- Event Date -->
+        <div>
+          <label for="eventDate" class="block text-sm font-medium">Event Date</label>
+          <input type="date" id="eventDate" required class="w-full border border-gray-300 rounded mt-1 p-2">
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium">Email*</label>
+          <input type="email" id="email" required class="w-full border border-gray-300 rounded mt-1 p-2">
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label for="phone" class="block text-sm font-medium">Phone No</label>
+          <input type="tel" id="phone" required class="w-full border border-gray-300 rounded mt-1 p-2">
+        </div>
+
+        <!-- Submit -->
+        <div>
+          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full">Submit</button>
+        </div>
+      </form> {% endcomment %}
+
+        <form method="GET" action="/search/" class="space-y-4">
+            <div>
+                <label>Venue Type:</label>
+                <select name="venue_type" class="p-2 border rounded w-full">
+                    <option value="">Any</option>
+                    <option value="hall">Hall</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="lawn">Lawn</option>
+                </select>
+            </div>
+            <div>
+              <label>Location:</label>
+              <input name="location" type="text" class="p-2 border rounded w-full">
+          </div>
+            <div>
+                <label>Price Range:</label>
+                <br>
+                <input name="min_price" type="number" placeholder="Min" class="p-2 border rounded">
+                <input name="max_price" type="number" placeholder="Max" class="p-2 border rounded">
+            </div>
+            <div>
+                <label>Attendees:</label>
+                <input name="attendees" type="number" class="p-2 border rounded w-full">
+            </div>
+            <div>
+                <label>Catering Type:</label>
+                <select name="catering" class="p-2 border rounded w-full">
+                    <option value="">Any</option>
+                    {% for c in caterings %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Search</button>
+        </form>
+      {% comment %} <p class="text-xs text-gray-500 mt-4 text-center">
+        By clicking on this button, you are accepting our
+        <a href="#" class="text-blue-500 underline">Terms & Conditions</a>
+      </p> {% endcomment %}
+    </div>
+  </div>
+  <!-- Scripts -->
+  <script>
+    // Show Modal
+    document.getElementById('loginBtn').onclick = function (e) {
+      e.preventDefault();
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
+  
+    // Close Modal
+    document.querySelector('.close').onclick = function () {
+      document.getElementById('modal').classList.add('hidden');
+    }
+  
+    // Click outside modal to close
+    window.onclick = function (event) {
+      const modal = document.getElementById('modal');
+      if (event.target === modal) {
+        modal.classList.add('hidden');
+      }
+    }
+  
+    // Handle form submit
+    document.getElementById('eventForm').onsubmit = function (e) {
+      e.preventDefault();
+      alert('Form submitted!');
+      document.getElementById('modal').classList.add('hidden');
+      e.target.reset(); // Optional: reset form fields
+    }
+  </script>
+
+
+
+
+  {% endblock %}

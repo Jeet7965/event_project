@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for venue in venues %}
+        <div class="bg-white p-4 rounded shadow flex flex-col justify-between">
+            <div>
+                <h2 class="text-xl font-semibold">{{ venue.for_booking }}</h2>
+                <p>Type: {{ venue.get_venue_type_display }}</p>
+                <p>Name: {{ venue.facilitator}}</p>
+                <p>Location: {{ venue.location }}</p>
+                <p>Price: ₹{{ venue.price }}</p>
+                <p>Capacity: {{ venue.capacity }}</p>
+                <p>Catering: {{ venue.catering.all|join:', ' }}</p>
+            </div>
+            <a href="{% url 'book_event' venue.id %}" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded text-center">Book Now</a>
+            
+            <!-- Map container for each venue (optional) -->
+            <div id="map-{{ venue.id }}" class="w-full h-48 mt-4 rounded"></div>
+        </div>
+    {% endfor %}
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script>
+    function initMap() {
+        {% for venue in venues %}
+            var map{{ venue.id }} = new google.maps.Map(document.getElementById("map-{{ venue.id }}"), {
+                zoom: 14,
+                center: { lat: {{ venue.latitude }}, lng: {{ venue.longitude }} },
+            });
+
+            new google.maps.Marker({
+                position: { lat: {{ venue.latitude }}, lng: {{ venue.longitude }} },
+                map: map{{ venue.id }},
+                title: "{{ venue.name }}"
+            });
+        {% endfor %}
+    }
+
+    window.onload = initMap;
+</script>
+
+{% endblock content %}

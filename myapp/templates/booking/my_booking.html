@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8 text-center text-gray-800">My Bookings</h1>
+
+{% if bookings %}
+<div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+  {% for booking in bookings %}
+    <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between">
+      <div class="space-y-2 text-gray-700 text-sm">
+        <p><strong>Booking Name:</strong> {{ booking.name }}</p>
+        <p><strong>Venue Name:</strong> {{ booking.venue.for_booking }}</p>
+        <p><strong>Venue Type:</strong> {{ booking.venue.get_venue_type_display }}</p>
+        <p><strong>Venue Location:</strong> {{ booking.venue.location }}</p>
+        <p><strong>Event Date:</strong> {{ booking.event_date }}</p>
+        <p><strong>Guests:</strong> {{ booking.attendees }}</p>
+        <p><strong>Transport Needed:</strong> {{ booking.need_transport|yesno:"Yes,No" }}</p>
+        {% if booking.transport_type %}
+        <p><strong>Transport Type:</strong> {{ booking.transport_type }}</p>
+        {% endif %}
+        <p><strong>Booked At:</strong> {{ booking.timestamp|date:"Y-m-d H:i" }}</p>
+      </div>
+
+      <div class="flex justify-center mt-8 space-x-6">
+        <a href="{% url 'update_booking' booking.id %}" 
+           class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 transform hover:scale-105 transition duration-300">
+          Edit
+        </a>
+        <a href="{% url 'cancel_booking' booking.id %}" 
+           onclick="return confirm('Are you sure you want to cancel this booking?')"
+           class="bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transform hover:scale-105 transition duration-300">
+          Cancel
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<p class="text-center text-gray-500 text-lg">No bookings found.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="min-h-screen flex items-center justify-center">
+  <div
+    class="flex flex-col md:flex-row w-full max-w-5xl shadow-lg bg-white rounded-lg overflow-hidden"
+  >
+    <!-- Left side with quotes -->
+    <div
+      class="md:w-1/2 p-8 bg-blue-600 text-white flex items-center justify-center"
+    >
+      <div>
+        <h2 class="text-3xl font-bold mb-4">Welcome to Our Community!</h2>
+        <p class="text-lg italic">
+          "The journey of a thousand miles begins with a single step."
+        </p>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="md:w-1/2 p-8">
+      <h2 class="text-2xl text-center font-bold mb-6">Create Your Account</h2>
+      {% if message %}
+      <p class="text-red-500 mb-4">{{ message }}</p>
+      {% endif %}
+      <form method="POST">
+     
+        {% csrf_token %}
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Username</label>
+          <input
+            type="text"
+            name="username"
+            required
+            class="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">First Name</label>
+          <input
+            type="text"
+            name="first_name"
+            required
+            class="w-full mt-1 px-4 py-2 border rounded-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Last Name</label>
+          <input
+            type="text"
+            name="last_name"
+            required
+            class="w-full mt-1 px-4 py-2 border rounded-md"
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            class="w-full mt-1 px-4 py-2 border rounded-md"
+          />
+        </div>
+        
+       
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            class="w-full mt-1 px-4 py-2 border rounded-md"
+          />
+        </div>
+        <div class="mb-6">
+          <label class="block text-sm font-medium">Confirm Password</label>
+          <input
+            type="password"
+            name="confirm_password"
+            required
+            class="w-full mt-1 px-4 py-2 border rounded-md"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+        >
+          Sign Up
+        </button>
+
+        <p class="mt-4 text-sm text-center text-gray-600">
+          Already have an account?
+          <a href="{% url 'login' %}" class="text-blue-600 hover:underline"
+            >Log in</a
+          >
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
