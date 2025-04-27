@@ -35,10 +35,11 @@ class Venue(models.Model):
         ('hall', 'Hall'),
         ('hotel', 'Hotel'),
         ('lawn', 'Lawn'),
+        ('lawn & hotel', 'Lawn & Hotel'),
     ]
     for_booking= models.CharField(max_length=100)
     facilitator= models.CharField(max_length=300,null=True,blank=True)
-    venue_type = models.CharField(max_length=10, choices=VENUE_TYPES)
+    venue_type = models.CharField(max_length=100, choices=VENUE_TYPES)
     location = models.CharField(max_length=255)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)

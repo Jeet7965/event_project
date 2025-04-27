@@ -20,7 +20,9 @@
         </div>
     {% endfor %}
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}" async defer ></script>
+{% comment %} <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcYQHFZChP225W_jIiUBzAFgRNKcA3l3o&callback=initMap" async defer></script> {% endcomment %}
+
 <script>
     function initMap() {
         {% for venue in venues %}
